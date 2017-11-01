@@ -1,0 +1,15 @@
+C:\Users\Rabbit\Desktop\Programming\Pattern Recognition\k-mean-clustering\K-mean clustering\bin\Release\K-mean clustering.exe.config
+C:\Users\Rabbit\Desktop\Programming\Pattern Recognition\k-mean-clustering\K-mean clustering\bin\Release\Accord.dll.config
+C:\Users\Rabbit\Desktop\Programming\Pattern Recognition\k-mean-clustering\K-mean clustering\bin\Release\K-mean clustering.exe
+C:\Users\Rabbit\Desktop\Programming\Pattern Recognition\k-mean-clustering\K-mean clustering\bin\Release\K-mean clustering.pdb
+C:\Users\Rabbit\Desktop\Programming\Pattern Recognition\k-mean-clustering\K-mean clustering\bin\Release\Accord.dll
+C:\Users\Rabbit\Desktop\Programming\Pattern Recognition\k-mean-clustering\K-mean clustering\bin\Release\Accord.Math.Core.dll
+C:\Users\Rabbit\Desktop\Programming\Pattern Recognition\k-mean-clustering\K-mean clustering\bin\Release\Accord.Math.dll
+C:\Users\Rabbit\Desktop\Programming\Pattern Recognition\k-mean-clustering\K-mean clustering\bin\Release\Accord.xml
+C:\Users\Rabbit\Desktop\Programming\Pattern Recognition\k-mean-clustering\K-mean clustering\bin\Release\Accord.Math.xml
+C:\Users\Rabbit\Desktop\Programming\Pattern Recognition\k-mean-clustering\K-mean clustering\bin\Release\Accord.Math.Core.xml
+C:\Users\Rabbit\Desktop\Programming\Pattern Recognition\k-mean-clustering\K-mean clustering\obj\Release\K_mean_clustering.Form1.resources
+C:\Users\Rabbit\Desktop\Programming\Pattern Recognition\k-mean-clustering\K-mean clustering\obj\Release\K_mean_clustering.Properties.Resources.resources
+C:\Users\Rabbit\Desktop\Programming\Pattern Recognition\k-mean-clustering\K-mean clustering\obj\Release\K-mean clustering.csproj.GenerateResource.Cache
+C:\Users\Rabbit\Desktop\Programming\Pattern Recognition\k-mean-clustering\K-mean clustering\obj\Release\K-mean clustering.exe
+C:\Users\Rabbit\Desktop\Programming\Pattern Recognition\k-mean-clustering\K-mean clustering\obj\Release\K-mean clustering.pdb

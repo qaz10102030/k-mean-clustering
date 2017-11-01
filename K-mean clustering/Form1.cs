@@ -30,7 +30,11 @@ namespace K_mean_clustering
         Random rnd = new Random(Guid.NewGuid().GetHashCode());
         Bitmap myPic;
         List<Cluster> originColor = new List<Cluster>();
+        List<int> originR = new List<int>();
+        List<int> originG = new List<int>();
+        List<int> originB = new List<int>();
         Stopwatch sw = new Stopwatch();
+        double[,] S;
 
         private void Work(List<Cluster> originColor, List<Color> originCluster, int K)
         {
@@ -150,8 +154,48 @@ namespace K_mean_clustering
                 if (radioButton1.Checked)
                     listBox1.Items.Add("使用<歐式距離>計算距離");
                 else if (radioButton2.Checked)
+                {
                     listBox1.Items.Add("使用<馬式距離>計算距離");
                     listBox1.TopIndex = listBox1.Items.Count - 1;
+                    originR.Clear();
+                    originG.Clear();
+                    originB.Clear();
+                    double varR, varG, varB, covRG, covRB, covGB;
+                    for (int i = 0; i < originColor.Count; i++)
+                    {
+                        originR.Add(originColor[i].pixel.R);
+                        originG.Add(originColor[i].pixel.G);
+                        originB.Add(originColor[i].pixel.B);
+                    }
+                    int[] R = new int[256];
+                    int[] G = new int[256];
+                    int[] B = new int[256];
+                    for (int i = 0; i < originR.Count; i++)
+                    {
+                        R[originR[i]]++;
+                    }
+                    for (int i = 0; i < originG.Count; i++)
+                    {
+                        G[originG[i]]++;
+                    }
+                    for (int i = 0; i < originB.Count; i++)
+                    {
+                        B[originB[i]]++;
+                    }
+
+                    varR = calcVariance(R, originColor.Count);
+                    varG = calcVariance(G, originColor.Count);
+                    varB = calcVariance(B, originColor.Count);
+                    covRG = calcCovariance(R, G, originColor.Count);
+                    covRB = calcCovariance(R, B, originColor.Count);
+                    covGB = calcCovariance(G, B, originColor.Count);
+                    S = new double[,]
+                    {
+                        { varR  , covRG , covRB },
+                        { covRG , varG  , covGB },
+                        { covRB , covGB , varB  }
+                    };
+                }
                 ThreadStart starter = () => Work(originColor, originCluster, K);
                 Thread doWork = new Thread(starter);
                 doWork.Start();
@@ -179,6 +223,38 @@ namespace K_mean_clustering
             }
         }
 
+        private double calcVariance(int[] array,int count)
+        {
+            double calcMean = 0.0;
+            double squareMean = 0.0;
+            for (int i = 0; i <= 255; i++)
+            {
+                calcMean += i * (array[i] / (double)count);
+            }
+            for (int i = 0; i <= 255; i++)
+            {
+                squareMean += Math.Pow(i, 2) * (array[i] / (double)count);
+            }
+            return squareMean - Math.Pow(calcMean, 2);
+        }
+
+        private double calcCovariance(int[] array1, int[] array2, int count)
+        {
+            double calcMean1 = 0.0, calcMean2 = 0.0;
+            for (int i = 0; i <= 255; i++)
+            {
+                calcMean1 += i * (array1[i] / (double)count);
+                calcMean2 += i * (array2[i] / (double)count);
+            }
+            double cov = 0.0;
+            for (int i = 0; i <= 255; i++)
+            {
+                cov += ((array1[i] - calcMean1) * (array2[i] - calcMean2)) / count;
+            }
+
+            return cov;
+        }
+
         private double calcEuclideanDistance(Color c1, Color c2)
         {
             return Math.Sqrt(Math.Pow((c1.R - c2.R), 2) + Math.Pow((c1.G - c2.G), 2) + Math.Pow((c1.B - c2.B), 2));
@@ -186,15 +262,17 @@ namespace K_mean_clustering
 
         private double calcMahalanobisDistance(Color c1, Color c2)
         {
-            double[] m1 = {c1.R,c1.G,c1.B};
-            double[] m2 = {c2.R,c2.G,c2.B};
+            double res = 0.0;
             var matrix = new double[,] {
-                {c1.R,c1.G,c1.B},
-                {c2.R,c2.G,c2.B}
+                { c1.R - c2.R},
+                { c1.G - c2.G},
+                { c1.B - c2.B}
             };
-            var covMatrix = matrix.Covariance();
-            var mahalanobis = Accord.Math.Distances.Mahalanobis.FromCovarianceMatrix(covMatrix);
-            return mahalanobis.Distance(m1, m2);
+            var transMatrix = matrix.Transpose();
+            var inversS = S.Inverse();
+            var one = Matrix.Multiply(transMatrix, inversS);
+            var two = Matrix.Multiply(one, matrix);
+            return two[0,0];
         }
 
         private Tuple<List<Cluster> , List<Cluster>, int> clustering(List<Cluster> orginBitmap, List<Color> originCluster, int K)
