@@ -23,3 +23,19 @@ C:\Users\User\Desktop\Coding\git\k-mean-clustering\K-mean clustering\bin\Debug\A
 C:\Users\User\Desktop\Coding\git\k-mean-clustering\K-mean clustering\bin\Debug\Accord.xml
 C:\Users\User\Desktop\Coding\git\k-mean-clustering\K-mean clustering\bin\Debug\Accord.Math.xml
 C:\Users\User\Desktop\Coding\git\k-mean-clustering\K-mean clustering\bin\Debug\Accord.Math.Core.xml
+C:\Users\Rabbit\Desktop\Programming\Pattern Recognition\k-mean-clustering\K-mean clustering\bin\Debug\K-mean clustering.exe.config
+C:\Users\Rabbit\Desktop\Programming\Pattern Recognition\k-mean-clustering\K-mean clustering\obj\Debug\K-mean clustering.exe
+C:\Users\Rabbit\Desktop\Programming\Pattern Recognition\k-mean-clustering\K-mean clustering\obj\Debug\K-mean clustering.pdb
+C:\Users\Rabbit\Desktop\Programming\Pattern Recognition\k-mean-clustering\K-mean clustering\bin\Debug\Accord.dll.config
+C:\Users\Rabbit\Desktop\Programming\Pattern Recognition\k-mean-clustering\K-mean clustering\bin\Debug\K-mean clustering.exe
+C:\Users\Rabbit\Desktop\Programming\Pattern Recognition\k-mean-clustering\K-mean clustering\bin\Debug\K-mean clustering.pdb
+C:\Users\Rabbit\Desktop\Programming\Pattern Recognition\k-mean-clustering\K-mean clustering\bin\Debug\Accord.dll
+C:\Users\Rabbit\Desktop\Programming\Pattern Recognition\k-mean-clustering\K-mean clustering\bin\Debug\Accord.Math.Core.dll
+C:\Users\Rabbit\Desktop\Programming\Pattern Recognition\k-mean-clustering\K-mean clustering\bin\Debug\Accord.Math.dll
+C:\Users\Rabbit\Desktop\Programming\Pattern Recognition\k-mean-clustering\K-mean clustering\bin\Debug\Accord.xml
+C:\Users\Rabbit\Desktop\Programming\Pattern Recognition\k-mean-clustering\K-mean clustering\bin\Debug\Accord.Math.xml
+C:\Users\Rabbit\Desktop\Programming\Pattern Recognition\k-mean-clustering\K-mean clustering\bin\Debug\Accord.Math.Core.xml
+C:\Users\Rabbit\Desktop\Programming\Pattern Recognition\k-mean-clustering\K-mean clustering\obj\Debug\K-mean clustering.csprojResolveAssemblyReference.cache
+C:\Users\Rabbit\Desktop\Programming\Pattern Recognition\k-mean-clustering\K-mean clustering\obj\Debug\K_mean_clustering.Form1.resources
+C:\Users\Rabbit\Desktop\Programming\Pattern Recognition\k-mean-clustering\K-mean clustering\obj\Debug\K_mean_clustering.Properties.Resources.resources
+C:\Users\Rabbit\Desktop\Programming\Pattern Recognition\k-mean-clustering\K-mean clustering\obj\Debug\K-mean clustering.csproj.GenerateResource.Cache
