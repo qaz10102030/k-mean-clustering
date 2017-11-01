@@ -8,6 +8,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Threading;
+using System.Diagnostics;
+using Accord.Math;
+using Accord.Statistics;
 
 namespace K_mean_clustering
 {
@@ -27,6 +30,7 @@ namespace K_mean_clustering
         Random rnd = new Random(Guid.NewGuid().GetHashCode());
         Bitmap myPic;
         List<Cluster> originColor = new List<Cluster>();
+        Stopwatch sw = new Stopwatch();
 
         private void Work(List<Cluster> originColor, List<Color> originCluster, int K)
         {
@@ -40,10 +44,14 @@ namespace K_mean_clustering
                     listBox1.Items.Add("----------第" + stage +"階段開始----------");
                     listBox1.Items.Add("分類階段");
                     listBox1.TopIndex = listBox1.Items.Count - 1;
+                    sw.Reset();
+                    sw.Start();
                 var tupleObj = clustering(originColor, originCluster, K);
                 originColor = tupleObj.Item1;
                 resultBitmap = tupleObj.Item2;
                 int bitmapChange = tupleObj.Item3;
+                    sw.Stop();
+                    listBox1.Items.Add("分類耗時：" + sw.Elapsed.TotalSeconds.ToString() + "s");
                 if(bitmapChange > 0)
                     listBox1.Items.Add("圖片有改變，共改變" + bitmapChange + "個像素點");
                 else
@@ -51,7 +59,11 @@ namespace K_mean_clustering
                     listBox1.TopIndex = listBox1.Items.Count - 1;
                     listBox1.Items.Add("畫圖階段");
                     listBox1.TopIndex = listBox1.Items.Count - 1;
+                    sw.Reset();
+                    sw.Start();
                 drawBitmap(resultBitmap);
+                    sw.Stop();
+                    listBox1.Items.Add("畫圖耗時：" + sw.Elapsed.TotalSeconds.ToString() + "s");
                     listBox1.Items.Add("尋找新的平均值");
                     listBox1.TopIndex = listBox1.Items.Count - 1;
                 resultCluster = findMean(originColor, originCluster, K);
@@ -127,7 +139,6 @@ namespace K_mean_clustering
                 button2.Enabled = false;
                 int K = int.Parse(textBox1.Text);
                 listBox1.Items.Add("初始化階段隨機找樣本內的顏色當平均值");
-                listBox1.TopIndex = listBox1.Items.Count - 1;
                 //隨機從bitmap裡找K個顏色當中心
                 for (int i = 0; i < K; i++)
                 {
@@ -136,7 +147,11 @@ namespace K_mean_clustering
                     listBox1.Items.Add("K[" + i + "]\tR = " + temp.R + "\tG = " + temp.G + "\tB = " + temp.B);
                     listBox1.TopIndex = listBox1.Items.Count - 1;
                 }
-                
+                if (radioButton1.Checked)
+                    listBox1.Items.Add("使用<歐式距離>計算距離");
+                else if (radioButton2.Checked)
+                    listBox1.Items.Add("使用<馬式距離>計算距離");
+                    listBox1.TopIndex = listBox1.Items.Count - 1;
                 ThreadStart starter = () => Work(originColor, originCluster, K);
                 Thread doWork = new Thread(starter);
                 doWork.Start();
@@ -169,33 +184,26 @@ namespace K_mean_clustering
             return Math.Sqrt(Math.Pow((c1.R - c2.R), 2) + Math.Pow((c1.G - c2.G), 2) + Math.Pow((c1.B - c2.B), 2));
         }
 
+        private double calcMahalanobisDistance(Color c1, Color c2)
+        {
+            double[] m1 = {c1.R,c1.G,c1.B};
+            double[] m2 = {c2.R,c2.G,c2.B};
+            var matrix = new double[,] {
+                {c1.R,c1.G,c1.B},
+                {c2.R,c2.G,c2.B}
+            };
+            var covMatrix = matrix.Covariance();
+            var mahalanobis = Accord.Math.Distances.Mahalanobis.FromCovarianceMatrix(covMatrix);
+            return mahalanobis.Distance(m1, m2);
+        }
+
         private Tuple<List<Cluster> , List<Cluster>, int> clustering(List<Cluster> orginBitmap, List<Color> originCluster, int K)
         {
             //算圖中每個點跟樣本點的距離，並找最短
             List<Cluster> resultBitmap = new List<Cluster>();
-            double[] dis = new double[K];
+            object test = new object();
             int bitmapChange = 0;
-            /*
-            Parallel.For(0, orginBitmap.Count(), size =>
-            {
-                for (int i = 0; i < size; i++)
-                {
-                    Cluster temp = orginBitmap[i];
-                    Color bitmap = temp.pixel;
-                    for (int j = 0; j < K; j++)
-                    {
-                        Color cluster = originCluster[j];
-                        dis[j] = calcEuclideanDistance(bitmap, cluster);
-                    }
-                    int index = Array.IndexOf(dis, dis.Min());
-                    temp.cluster = index;
-                    if (index != orginBitmap[i].cluster)
-                        bitmapChange++;
-                    orginBitmap[i] = temp;
-                    resultBitmap.Add(new Cluster { pixel = originCluster[index], cluster = index });
-                }
-            });
-            */
+            double[] dis = new double[K];            
             
             for (int i = 0; i < orginBitmap.Count(); i++)
             {
@@ -204,7 +212,10 @@ namespace K_mean_clustering
                 for (int j = 0; j < K; j++)
                 {
                     Color cluster = originCluster[j];
-                    dis[j] = calcEuclideanDistance(bitmap, cluster);
+                    if (radioButton1.Checked)
+                        dis[j] = calcEuclideanDistance(bitmap, cluster);
+                    else if (radioButton2.Checked)
+                        dis[j] = calcMahalanobisDistance(bitmap, cluster);
                 }
                 int index = Array.IndexOf(dis, dis.Min());
                 temp.cluster = index;
