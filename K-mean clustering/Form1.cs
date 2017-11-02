@@ -4,13 +4,10 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Threading;
 using System.Diagnostics;
 using Accord.Math;
-using Accord.Statistics;
 
 namespace K_mean_clustering
 {
@@ -60,7 +57,6 @@ namespace K_mean_clustering
                     listBox1.Items.Add("圖片有改變，共改變" + bitmapChange + "個像素點");
                 else
                     listBox1.Items.Add("圖片無改變");
-                    listBox1.TopIndex = listBox1.Items.Count - 1;
                     listBox1.Items.Add("畫圖階段");
                     listBox1.TopIndex = listBox1.Items.Count - 1;
                     sw.Reset();
@@ -73,6 +69,7 @@ namespace K_mean_clustering
                 resultCluster = findMean(originColor, originCluster, K);
                     listBox1.Items.Add("新的平均值");
                     listBox1.TopIndex = listBox1.Items.Count - 1;
+
                 for (int i = 0; i < K; i++)
                 {
                     Color temp = resultCluster[i];
