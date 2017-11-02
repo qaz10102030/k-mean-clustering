@@ -92,6 +92,8 @@ namespace K_mean_clustering
                         listBox1.TopIndex = listBox1.Items.Count - 1;
                     isMeanChange = false;
                     button2.Enabled = true;
+                    radioButton1.Enabled = true;
+                    radioButton2.Enabled = true;
                 }
                 else {
                         listBox1.Items.Add("有" + (K - meanChange) + "項改變，重新分類...");
@@ -138,6 +140,8 @@ namespace K_mean_clustering
                 List<Color> originCluster = new List<Color>();
                 listBox1.Items.Clear();
                 button2.Enabled = false;
+                radioButton1.Enabled = false;
+                radioButton2.Enabled = false;
                 int K = int.Parse(textBox1.Text);
                 listBox1.Items.Add("初始化階段隨機找樣本內的顏色當平均值");
                 //隨機從bitmap裡找K個顏色當中心
